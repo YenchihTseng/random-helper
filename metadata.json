@@ -1,0 +1,5 @@
+{
+  "name": "Random Picker",
+  "description": "A professional tool for security auditors to randomly select and group hostnames from CSV or text input.",
+  "requestFramePermissions": []
+}
