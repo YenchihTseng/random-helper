@@ -17,7 +17,7 @@ This is a React project bootstrapped with Vite.
    ```bash
    npm run dev
    ```
-
+ 
 3. Build for production:
    ```bash
    npm run build

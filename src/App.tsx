@@ -4,14 +4,14 @@
  */
 
 import React, { useState, useRef, useEffect } from 'react';
-import { 
-  Upload, 
-  ClipboardList, 
-  Users, 
-  Dices, 
-  Trash2, 
-  Plus, 
-  Download, 
+import {
+  Upload,
+  ClipboardList,
+  Users,
+  Dices,
+  Trash2,
+  Plus,
+  Download,
   CheckCircle2,
   AlertCircle,
   ChevronRight,
@@ -58,7 +58,7 @@ export default function App() {
   const [currentRollingHost, setCurrentRollingHost] = useState<string | null>(null);
   const [groupSize, setGroupSize] = useState(2);
   const [groups, setGroups] = useState<Group[]>([]);
-  const [history, setHistory] = useState<{name: string, time: string}[]>([]);
+  const [history, setHistory] = useState<{ name: string, time: string }[]>([]);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -66,7 +66,7 @@ export default function App() {
   const duplicateNames = hosts
     .map(h => h.name)
     .filter((name, index, self) => self.indexOf(name) !== index);
-  
+
   const hasDuplicates = duplicateNames.length > 0;
 
   const removeDuplicates = () => {
@@ -101,7 +101,7 @@ export default function App() {
             id: Math.random().toString(36).substr(2, 9),
             name: name.trim(),
           }));
-        
+
         setHosts(prev => [...prev, ...parsedHosts]);
         if (fileInputRef.current) fileInputRef.current.value = '';
       },
@@ -134,9 +134,9 @@ export default function App() {
   // Selection Logic
   const startSelection = () => {
     if (hosts.length === 0) return;
-    
-    const availableHosts = isDuplicateAllowed 
-      ? hosts 
+
+    const availableHosts = isDuplicateAllowed
+      ? hosts
       : hosts.filter(h => !selectedHosts.includes(h.name));
 
     if (availableHosts.length === 0) {
@@ -171,10 +171,10 @@ export default function App() {
   // Grouping Logic
   const performGrouping = () => {
     if (hosts.length === 0) return;
-    
+
     const shuffled = [...hosts].sort(() => Math.random() - 0.5);
     const newGroups: Group[] = [];
-    
+
     for (let i = 0; i < shuffled.length; i += groupSize) {
       newGroups.push({
         id: Math.random().toString(36).substr(2, 9),
@@ -182,20 +182,20 @@ export default function App() {
         members: shuffled.slice(i, i + groupSize).map(h => h.name),
       });
     }
-    
+
     setGroups(newGroups);
   };
 
   const downloadGroupsAsCSV = () => {
     if (groups.length === 0) return;
-    
+
     const csvRows = [['組別', '成員']];
     groups.forEach(group => {
       group.members.forEach(member => {
         csvRows.push([group.name, member]);
       });
     });
-    
+
     const csvContent = Papa.unparse(csvRows);
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
@@ -221,7 +221,7 @@ export default function App() {
             <p className="text-xs text-[#64748B] font-medium uppercase tracking-widest">Universal Random Selection Tool</p>
           </div>
         </div>
-        
+
         <nav className="flex bg-[#F1F5F9] p-1 rounded-xl">
           {[
             { id: 'input', label: '名單匯入', icon: Upload },
@@ -233,8 +233,8 @@ export default function App() {
               onClick={() => setActiveTab(tab.id as Tab)}
               className={cn(
                 "flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all",
-                activeTab === tab.id 
-                  ? "bg-white text-[#4F46E5] shadow-sm" 
+                activeTab === tab.id
+                  ? "bg-white text-[#4F46E5] shadow-sm"
                   : "text-[#64748B] hover:text-[#4F46E5]"
               )}
             >
@@ -262,7 +262,7 @@ export default function App() {
                     <h2 className="text-lg font-semibold flex items-center gap-2">
                       <Upload className="w-5 h-5 text-[#4F46E5]" /> 匯入名單
                     </h2>
-                    <button 
+                    <button
                       onClick={loadMockData}
                       className="text-xs font-bold text-[#4F46E5] hover:bg-[#EEF2FF] px-3 py-1.5 rounded-lg border border-[#C7D2FE] transition-all flex items-center gap-1"
                     >
@@ -270,16 +270,16 @@ export default function App() {
                     </button>
                   </div>
                   <div className="space-y-4">
-                    <div 
+                    <div
                       onClick={() => fileInputRef.current?.click()}
                       className="border-2 border-dashed border-[#CBD5E1] rounded-xl p-8 text-center cursor-pointer hover:border-[#4F46E5] transition-colors group"
                     >
-                      <input 
-                        type="file" 
-                        ref={fileInputRef} 
-                        onChange={handleFileUpload} 
-                        accept=".csv" 
-                        className="hidden" 
+                      <input
+                        type="file"
+                        ref={fileInputRef}
+                        onChange={handleFileUpload}
+                        accept=".csv"
+                        className="hidden"
                       />
                       <Upload className="w-10 h-10 mx-auto mb-3 text-[#94A3B8] group-hover:text-[#4F46E5] transition-colors" />
                       <p className="text-sm font-medium">點擊或拖曳 CSV 檔案至此</p>
@@ -339,14 +339,14 @@ export default function App() {
                   </h2>
                   <div className="flex items-center gap-2">
                     {hasDuplicates && (
-                      <button 
+                      <button
                         onClick={removeDuplicates}
                         className="text-xs font-bold text-[#F59E0B] hover:bg-[#FFFBEB] px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1 border border-[#F59E0B]/20"
                       >
                         <AlertCircle className="w-3.5 h-3.5" /> 移除重複項
                       </button>
                     )}
-                    <button 
+                    <button
                       onClick={clearAllHosts}
                       className="text-xs font-bold text-[#EF4444] hover:bg-[#FEF2F2] px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1"
                     >
@@ -365,8 +365,8 @@ export default function App() {
                       {hosts.map((host, index) => {
                         const isDuplicate = hosts.slice(0, index).some(h => h.name === host.name);
                         return (
-                          <div 
-                            key={host.id} 
+                          <div
+                            key={host.id}
                             className={cn(
                               "flex items-center justify-between p-3 rounded-xl group transition-colors",
                               isDuplicate ? "bg-[#FFFBEB] border border-[#F59E0B]/30" : "bg-[#F1F5F9] hover:bg-[#E2E8F0]"
@@ -378,7 +378,7 @@ export default function App() {
                                 <span className="text-[10px] font-bold text-[#F59E0B] uppercase bg-white px-1.5 py-0.5 rounded border border-[#F59E0B]/20">重複</span>
                               )}
                             </div>
-                            <button 
+                            <button
                               onClick={() => removeHost(host.id)}
                               className="text-[#94A3B8] hover:text-[#EF4444] transition-colors opacity-0 group-hover:opacity-100"
                             >
@@ -406,9 +406,9 @@ export default function App() {
               <div className="lg:col-span-2 space-y-8">
                 <div className="bg-white p-12 rounded-[2rem] border border-[#E2E8F0] shadow-xl text-center relative overflow-hidden">
                   <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#4F46E5] to-transparent opacity-20"></div>
-                  
+
                   <h2 className="text-sm font-bold text-[#64748B] uppercase tracking-[0.3em] mb-8">Random Selection Engine</h2>
-                  
+
                   <div className="h-48 flex items-center justify-center mb-12">
                     <AnimatePresence mode="wait">
                       {currentRollingHost ? (
@@ -433,7 +433,7 @@ export default function App() {
                   <div className="flex flex-col items-center gap-6">
                     <div className="flex items-center gap-8">
                       <label className="flex items-center gap-3 cursor-pointer group">
-                        <div 
+                        <div
                           onClick={() => setIsDuplicateAllowed(!isDuplicateAllowed)}
                           className={cn(
                             "w-12 h-6 rounded-full relative transition-colors duration-300",
@@ -529,14 +529,14 @@ export default function App() {
                   <div className="space-y-2">
                     <label className="text-xs font-bold text-[#64748B] uppercase tracking-wider">每組人數</label>
                     <div className="flex items-center gap-4">
-                      <button 
+                      <button
                         onClick={() => setGroupSize(Math.max(1, groupSize - 1))}
                         className="w-10 h-10 rounded-xl border border-[#CBD5E1] flex items-center justify-center hover:bg-[#F1F5F9] transition-colors"
                       >
                         -
                       </button>
                       <span className="text-2xl font-mono font-bold w-12 text-center">{groupSize}</span>
-                      <button 
+                      <button
                         onClick={() => setGroupSize(groupSize + 1)}
                         className="w-10 h-10 rounded-xl border border-[#CBD5E1] flex items-center justify-center hover:bg-[#F1F5F9] transition-colors"
                       >
@@ -544,7 +544,7 @@ export default function App() {
                       </button>
                     </div>
                   </div>
-                  
+
                   <div className="h-12 w-px bg-[#E2E8F0] hidden md:block"></div>
 
                   <div className="space-y-1">
