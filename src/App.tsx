@@ -43,9 +43,9 @@ interface Group {
 }
 
 const MOCK_HOSTS = [
-  'prod-web-01', 'prod-web-02', 'prod-db-master', 'prod-db-slave',
-  'staging-app-01', 'staging-app-02', 'dev-sandbox-01', 'dev-sandbox-02',
-  'backup-srv-01', 'monitor-node-01', 'vpn-gateway-01', 'auth-srv-01'
+  '84920', '10293', '48201', '59382',
+  '71829', '30291', '94820', '28193',
+  '65829', '19283', '47281', '83920'
 ];
 
 export default function App() {
@@ -140,7 +140,7 @@ export default function App() {
       : hosts.filter(h => !selectedHosts.includes(h.name));
 
     if (availableHosts.length === 0) {
-      alert('所有主機都已抽選完畢！');
+      alert('所有名單都已抽選完畢！');
       return;
     }
 
@@ -225,7 +225,7 @@ export default function App() {
         <nav className="flex bg-[#F1F5F9] p-1 rounded-xl">
           {[
             { id: 'input', label: '名單匯入', icon: Upload },
-            { id: 'selection', label: '主機抽選', icon: Dices },
+            { id: 'selection', label: '幸運抽選', icon: Dices },
             { id: 'grouping', label: '自動分組', icon: Users },
           ].map((tab) => (
             <button
@@ -296,11 +296,11 @@ export default function App() {
                     </div>
 
                     <div className="space-y-2">
-                      <label className="text-sm font-semibold text-[#334155]">手動貼上主機名稱</label>
+                      <label className="text-sm font-semibold text-[#334155]">手動貼上名單</label>
                       <textarea
                         value={inputText}
                         onChange={(e) => setInputText(e.target.value)}
-                        placeholder="每行一個主機名稱..."
+                        placeholder="每行一個項目..."
                         className="w-full h-32 p-3 rounded-xl border border-[#CBD5E1] focus:ring-2 focus:ring-[#4F46E5] focus:border-transparent outline-none text-sm font-mono"
                       />
                       <button
@@ -321,7 +321,7 @@ export default function App() {
                   </div>
                   <div className="grid grid-cols-2 gap-4">
                     <div className="bg-white/10 p-4 rounded-xl backdrop-blur-sm">
-                      <p className="text-indigo-100 text-xs font-bold uppercase mb-1">總主機數</p>
+                      <p className="text-indigo-100 text-xs font-bold uppercase mb-1">總數</p>
                       <p className="text-3xl font-mono font-bold">{hosts.length}</p>
                     </div>
                     <div className="bg-white/10 p-4 rounded-xl backdrop-blur-sm">
@@ -358,7 +358,7 @@ export default function App() {
                   {hosts.length === 0 ? (
                     <div className="h-full flex flex-col items-center justify-center text-[#94A3B8] py-20">
                       <AlertCircle className="w-12 h-12 mb-2 opacity-20" />
-                      <p className="text-sm font-medium">尚未匯入任何主機</p>
+                      <p className="text-sm font-medium">尚未匯入任何名單</p>
                     </div>
                   ) : (
                     <div className="grid grid-cols-1 gap-2">
