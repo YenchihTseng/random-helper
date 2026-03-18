@@ -42,10 +42,19 @@ interface Group {
   members: string[];
 }
 
-const MOCK_HOSTS = [
+const MOCK_HOSTS_A = [
   '84920', '10293', '48201', '59382',
   '71829', '30291', '94820', '28193',
   '65829', '19283', '47281', '83920'
+];
+
+const MOCK_HOSTS_B = [
+  'Atlanta Hawks', 'Boston Celtics', 'Brooklyn Nets', 'Charlotte Hornets', 'Chicago Bulls',
+  'Cleveland Cavaliers', 'Dallas Mavericks', 'Denver Nuggets', 'Detroit Pistons', 'Golden State Warriors',
+  'Houston Rockets', 'Indiana Pacers', 'LA Clippers', 'Los Angeles Lakers', 'Memphis Grizzlies',
+  'Miami Heat', 'Milwaukee Bucks', 'Minnesota Timberwolves', 'New Orleans Pelicans', 'New York Knicks',
+  'Oklahoma City Thunder', 'Orlando Magic', 'Philadelphia 76ers', 'Phoenix Suns', 'Portland Trail Blazers',
+  'Sacramento Kings', 'San Antonio Spurs', 'Toronto Raptors', 'Utah Jazz', 'Washington Wizards'
 ];
 
 export default function App() {
@@ -79,8 +88,9 @@ export default function App() {
     setHosts(uniqueHosts);
   };
 
-  const loadMockData = () => {
-    const mockData = MOCK_HOSTS.map(name => ({
+  const loadMockData = (type: 'A' | 'B') => {
+    const dataSource = type === 'A' ? MOCK_HOSTS_A : MOCK_HOSTS_B;
+    const mockData = dataSource.map(name => ({
       id: Math.random().toString(36).substr(2, 9),
       name,
     }));
@@ -262,12 +272,20 @@ export default function App() {
                     <h2 className="text-lg font-semibold flex items-center gap-2">
                       <Upload className="w-5 h-5 text-[#4F46E5]" /> 匯入名單
                     </h2>
-                    <button
-                      onClick={loadMockData}
-                      className="text-xs font-bold text-[#4F46E5] hover:bg-[#EEF2FF] px-3 py-1.5 rounded-lg border border-[#C7D2FE] transition-all flex items-center gap-1"
-                    >
-                      <History className="w-3.5 h-3.5" /> 載入模擬名單
-                    </button>
+                    <div className="flex gap-2">
+                      <button
+                        onClick={() => loadMockData('A')}
+                        className="text-xs font-bold text-[#4F46E5] hover:bg-[#EEF2FF] px-3 py-1.5 rounded-lg border border-[#C7D2FE] transition-all flex items-center gap-1"
+                      >
+                        <History className="w-3.5 h-3.5" /> 載入名單 A
+                      </button>
+                      <button
+                        onClick={() => loadMockData('B')}
+                        className="text-xs font-bold text-[#F59E0B] hover:bg-[#FFFBEB] px-3 py-1.5 rounded-lg border border-[#FDE68A] transition-all flex items-center gap-1"
+                      >
+                        <History className="w-3.5 h-3.5" /> 載入名單 B
+                      </button>
+                    </div>
                   </div>
                   <div className="space-y-4">
                     <div
